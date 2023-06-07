@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:nba_api/display/player_dipslay.dart';
 import 'package:nba_api/team_model.dart';
 
 class PlayersPage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _PlayersPageState extends State<PlayersPage> {
     for (var eachPlayer in finalResponse['data']) {
       final player = Player(
           firstName: eachPlayer['first_name'],
-          position: eachPlayer['position'],
+          position: eachPlayer['team']['full_name'],
           secondName: eachPlayer['last_name']);
       // var fullName = player.firstName + player.secondName;
       players.add(player);
@@ -70,7 +71,13 @@ class _PlayersPageState extends State<PlayersPage> {
                           ),
                         ),
                         trailing: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) =>
+                                          PlayerDisplay(player: players[index]))));
+                            },
                             icon: const Icon(
                               Icons.navigate_next_sharp,
                               color: Color.fromARGB(255, 16, 32, 250),
