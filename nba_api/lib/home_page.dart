@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 // import 'package:http/http.dart';
@@ -16,9 +15,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Team> teams = [];
 
-  Future <void> getUsers() async {
- //fetching the data from the internet
-    const url = "https://www.balldontlie.io/api/v1/players";
+  Future<void> getUsers() async {
+    //fetching the data from the internet
+    const url = "https://www.balldontlie.io/api/v1/teams";
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     //converting the data into that thick ass block of a string
@@ -26,7 +25,7 @@ class _HomePageState extends State<HomePage> {
 //creating instance of teams or players in that large string and pushing them into the list
     for (var eachTeam in finalResponse['data']) {
       final team = Team(
-          abbreviation: eachTeam['first_name'], name: eachTeam['last_name']);
+          abbreviation: eachTeam['abbreviation'], name: eachTeam['full_name']);
       teams.add(team);
     }
   }
@@ -36,32 +35,48 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text("NBA TEAMS"),
+        backgroundColor: const Color.fromARGB(255, 6, 43, 252),
+        title: const Center(child: Text("NBA TEAMS")),
       ),
       body: FutureBuilder(
           future: getUsers(),
           builder: ((context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return ListView.builder(
-            itemCount: teams.length,
-            itemBuilder: ((context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListTile(
-                tileColor: Colors.grey.shade700,
-                
-                title: Text(teams[index].name, style: const TextStyle(color: Colors.white, fontSize: 20),),
-              ),
-            );
-          }));
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      })),
+            if (snapshot.connectionState == ConnectionState.done) {
+              return ListView.builder(
+                  itemCount: teams.length,
+                  itemBuilder: ((context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        tileColor:  Colors.grey.shade900,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        title: Text(
+                          teams[index].name,
+                          style:  const TextStyle(
+                              color: Colors.white , fontSize: 20, letterSpacing: 2),
+                        ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 20,bottom: 10),
+                          child: Text(
+                            teams[index].abbreviation,
+                            style:   TextStyle(
+                              color:  Colors.grey.shade300 , fontSize: 15
+                            ),
+                          ),
+                        ),
+                        trailing: IconButton(onPressed: (){}, icon: const Icon(Icons.navigate_next_sharp,color: Colors.red,)),
+                      ),
+                    );
+                  }));
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          })),
     );
   }
 }
