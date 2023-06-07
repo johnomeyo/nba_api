@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 // import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:nba_api/display/team_display.dart';
 import 'package:nba_api/team_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -67,7 +68,13 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         trailing: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) =>
+                                          TeamDisplay(team: teams[index]))));
+                            },
                             icon: const Icon(
                               Icons.navigate_next_sharp,
                               color: Colors.red,

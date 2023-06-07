@@ -16,7 +16,7 @@ class _PlayersPageState extends State<PlayersPage> {
   List<Player> players = [];
 
   Future<void> getPlayers() async {
-    print("I'm fetching data;");
+    // print("I'm fetching data;");
     const url = "https://www.balldontlie.io/api/v1/players";
     final uri = Uri.parse(url);
     final response = await http.get(uri);
@@ -27,10 +27,10 @@ class _PlayersPageState extends State<PlayersPage> {
           firstName: eachPlayer['first_name'],
           position: eachPlayer['position'],
           secondName: eachPlayer['last_name']);
-      var fullName = player.firstName + player.secondName;
+      // var fullName = player.firstName + player.secondName;
       players.add(player);
     }
-    print(players.length);
+    // print(players.length);
   }
 
   @override
@@ -38,7 +38,7 @@ class _PlayersPageState extends State<PlayersPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 8, 30, 236),
+        backgroundColor: const Color.fromARGB(255, 228, 57, 5),
         title: const Center(child: Text("NBA PLAYERS")),
       ),
       body: FutureBuilder(
@@ -73,11 +73,13 @@ class _PlayersPageState extends State<PlayersPage> {
                             onPressed: () {},
                             icon: const Icon(
                               Icons.navigate_next_sharp,
-                              color: Colors.red,
+                              color: Color.fromARGB(255, 16, 32, 250),
                             )),
                       ),
                     );
                   }));
+            } else if (snapshot.connectionState == ConnectionState.none) {
+              return const Text("Network Error, Please connect to a mobile network",style: TextStyle(color:Colors.white, fontSize: 25),);
             } else {
               return const Center(
                 child: CircularProgressIndicator(
