@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Team> teams = [];
 
-  Future<void> getUsers() async {
+  Future<void> getTeams() async {
     //fetching the data from the internet
     const url = "https://www.balldontlie.io/api/v1/teams";
     final uri = Uri.parse(url);
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         title: const Center(child: Text("NBA TEAMS")),
       ),
       body: FutureBuilder(
-          future: getUsers(),
+          future: getTeams(),
           builder: ((context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return ListView.builder(
@@ -48,24 +48,30 @@ class _HomePageState extends State<HomePage> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        tileColor:  Colors.grey.shade900,
+                        tileColor: Colors.grey.shade900,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                         title: Text(
                           teams[index].name,
-                          style:  const TextStyle(
-                              color: Colors.white , fontSize: 20, letterSpacing: 2),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              letterSpacing: 2),
                         ),
                         subtitle: Padding(
-                          padding: const EdgeInsets.only(top: 20,bottom: 10),
+                          padding: const EdgeInsets.only(top: 20, bottom: 10),
                           child: Text(
                             teams[index].abbreviation,
-                            style:   TextStyle(
-                              color:  Colors.grey.shade300 , fontSize: 15
-                            ),
+                            style: TextStyle(
+                                color: Colors.grey.shade300, fontSize: 15),
                           ),
                         ),
-                        trailing: IconButton(onPressed: (){}, icon: const Icon(Icons.navigate_next_sharp,color: Colors.red,)),
+                        trailing: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.navigate_next_sharp,
+                              color: Colors.red,
+                            )),
                       ),
                     );
                   }));
